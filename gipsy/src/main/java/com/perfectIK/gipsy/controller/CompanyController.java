@@ -20,6 +20,17 @@ public class CompanyController {
         return ResponseEntity.ok(companyService.findAll());
     }
 
+    @GetMapping("{companyId}")
+    public ResponseEntity getCompanyById(@PathVariable String companyId) {
+        Optional<Company> company = companyService.findById(companyId);
+        if (company.isPresent()) {
+            return ResponseEntity.ok(company.get());
+        } else {
+            return ResponseEntity.ok("Company not found");
+        }
+
+    }
+
     @PostMapping("save")
     public ResponseEntity<Company> saveCompany (@RequestBody Company company) {
         return ResponseEntity.ok(companyService.save(company));
