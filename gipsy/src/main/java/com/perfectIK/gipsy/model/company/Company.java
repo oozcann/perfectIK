@@ -1,6 +1,7 @@
 package com.perfectIK.gipsy.model.company;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.perfectIK.gipsy.model.entityproperties.ArchiveableEntity;
 import com.perfectIK.gipsy.model.entityproperties.CreationDatedEntity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -9,7 +10,7 @@ import java.util.Date;
 
 @Document("COMPANY")
 //@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "_class")
-public class Company implements CreationDatedEntity {
+public class Company implements CreationDatedEntity, ArchiveableEntity {
 
     @Id
     private String id;
@@ -19,6 +20,7 @@ public class Company implements CreationDatedEntity {
     private String address;
     private String phone;
     private Date creationDate = new Date();
+    private boolean archived = false;
 
     public Company() {
     }
@@ -71,5 +73,15 @@ public class Company implements CreationDatedEntity {
     @Override
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    @Override
+    public boolean isArchived() {
+        return archived;
+    }
+
+    @Override
+    public void setArchived(boolean archived) {
+        this.archived = archived;
     }
 }

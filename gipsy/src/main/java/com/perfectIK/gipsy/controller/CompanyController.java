@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/company")
@@ -22,5 +23,17 @@ public class CompanyController {
     @PostMapping("save")
     public ResponseEntity<Company> saveCompany (@RequestBody Company company) {
         return ResponseEntity.ok(companyService.save(company));
+    }
+
+    @DeleteMapping("delete/{companyId}")
+    public ResponseEntity deleteCompany(@PathVariable String companyId) {
+        Optional<Company> company = companyService.findById(companyId);
+        if (company.isPresent()) {
+            company.get().setArchived(true);
+            companyService.save(company.get());
+            return ResponseEntity.ok("Company has been archived");
+        } else {
+            return ResponseEntity.ok("Company not found");
+        }
     }
 }
